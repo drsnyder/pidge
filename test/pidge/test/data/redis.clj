@@ -1,8 +1,8 @@
 (ns pidge.test.data.redis
   (:use [pidge.data]
-        [pidge.data.redis])
-  (:require [redis.core :as redis])
-  (:use [clojure.test]))
+        [clojure.test])
+  (:require [redis.core :as redis]
+            [pidge.data.redis :as pdr]))
 
 (def redis-server {:host "127.0.0.1" :port 6379}) 
 (def test-key "pidge.test.data.redis")
@@ -11,7 +11,7 @@
 (defn setup []
   (add 
     (add 
-      (add (pidge.data.redis.RedisContainer. test-key) 
+      (add (pdr/RedisContainer. test-key) 
            {:id 111 :score 15})
       {:id 112 :score 12})
     {:id 9 :score 333}))
@@ -23,5 +23,5 @@
          (redis/with-server redis-server 
                             (setup)
                             ; to fix add redis/with-server
-                            (is (= (card (pidge.data.redis.RedisContainer. test-key)) 3))
+                            (is (= (card (pdr/RedisContainer. test-key)) 3))
                             (tear-down)))
