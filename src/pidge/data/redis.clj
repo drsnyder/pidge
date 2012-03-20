@@ -6,15 +6,15 @@
 (deftype RedisContainer [#^String key]) 
 
 
-(extend-type clojure.lang.PersistentArrayMap
+(extend-type clojure.lang.APersistentMap
              Sortable
              (ident [this] (get this :id))
              (score [this] (get this :score)))
 
-(extend-type clojure.lang.PersistentHashMap
-             Sortable
-             (ident [this] (get this :id))
-             (score [this] (get this :score)))
+;(extend-type clojure.lang.PersistentHashMap
+;             Sortable
+;             (ident [this] (get this :id))
+;             (score [this] (get this :score)))
 
 
 ;(def rs {:host "127.0.0.1" :port 6379}) 
