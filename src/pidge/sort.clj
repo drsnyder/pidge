@@ -1,7 +1,6 @@
 (ns pidge.sort)
 
 (defprotocol Sortable
-  (container-key [object])
   (ident [object])
   (score [object]))
 
