@@ -5,23 +5,6 @@
 
 (deftype RedisContainer [#^String key]) 
 
-
-;http://fiji.sc/javadoc/clojure/lang/package-tree.html
-(extend-type clojure.lang.APersistentMap
-             Sortable
-             (ident [this] (get this :id))
-             (score [this] (get this :score)))
-
-
-;(def rs {:host "127.0.0.1" :port 6379}) 
-;(redis/with-server rs 
-;                   (add 
-;                     (add 
-;                       (add (pidge.data.redis.RedisContainer. "test_set") 
-;                            {:id 111 :score 15})
-;                       {:id 112 :score 12})
-;                     {:id 9 :score 333}))
-
 (extend-type RedisContainer
              Container
              (add [this data]
@@ -31,6 +14,6 @@
              (top [this n] (redis/zrange (.key this) 0 n))
              (card [this] (redis/zcard (.key this))))
 
-
-
+(defn new-container [k]
+  (RedisContainer. k))
 

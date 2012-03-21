@@ -11,7 +11,7 @@
 (defn setup []
   (add 
     (add 
-      (add (pdr/RedisContainer. test-key) 
+      (add (pdr/new-container test-key) 
            {:id 111 :score 15})
       {:id 112 :score 12})
     {:id 9 :score 333}))
@@ -19,9 +19,18 @@
 (defn tear-down []
     (redis/del test-key))
 
+(defn redis-fixture [f]
+  (redis/with-server redis-server 
+                     (setup)
+                     (f)
+                     (tear-down)))
+
+(use-fixtures :each redis-fixture)
+
+
+
 (deftest test-card
-         (redis/with-server redis-server 
-                            (setup)
-                            ; to fix add redis/with-server
-                            (is (= (card (pdr/RedisContainer. test-key)) 3))
-                            (tear-down)))
+         (is (= (card (pdr/new-container test-key)) 3)))
+
+(deftest test-top
+         (is false))

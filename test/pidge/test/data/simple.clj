@@ -1,12 +1,13 @@
 (ns pidge.test.data.simple
   (:use [pidge.data]
-        [pidge.data.simple])
-  (:use [clojure.test]))
+        [pidge.data.simple]
+        [clojure.test])
+  (:require [pidge.data.simple :as pds]))
 
 (def simplecontainer 
   (add 
     (add 
-      (add (sorted-map) 
+      (add (pds/new-container) 
            {:id 111 :score 15})  ; second
       {:id 112 :score 12})       ; first
     {:id 9 :score 99}))          ; third
