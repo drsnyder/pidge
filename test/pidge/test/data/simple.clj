@@ -1,19 +1,18 @@
 (ns pidge.test.data.simple
-  (:use [pidge.data]
-        [pidge.data.simple]
-        [clojure.test])
-  (:require [pidge.data.simple :as pds]))
+  (:use [clojure.test]
+        [pidge.sort]
+        [pidge.data.simple]))
 
 (def simplecontainer 
   (add 
     (add 
-      (add (pds/new-container) 
-           {:id 111 :score 15})  ; second
-      {:id 112 :score 12})       ; first
-    {:id 9 :score 99}))          ; third
+      (add (new-container) 
+           (new-sortable 111 15))  ; second
+      (new-sortable 112 12))       ; first
+    (new-sortable 9 99)))          ; third
 
 (deftest test-card
          (is (= (card simplecontainer) 3)))
 
 (deftest test-top
-         (is (= (first (first simplecontainer)) 12)))
+         (is (= (score (first (top simplecontainer 1))) 12)))

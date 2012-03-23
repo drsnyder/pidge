@@ -1,8 +1,8 @@
 (ns pidge.test.data.redis
-  (:use [pidge.data]
-        [clojure.test])
-  (:require [redis.core :as redis]
-            [pidge.data.redis :as pdr]))
+  (:use [clojure.test]
+        [pidge.sort]
+        [pidge.data.redis])
+  (:require [redis.core :as redis]))
 
 (def redis-server {:host "127.0.0.1" :port 6379}) 
 (def test-key "pidge.test.data.redis")
@@ -11,10 +11,10 @@
 (defn setup []
   (add 
     (add 
-      (add (pdr/new-container test-key) 
-           {:id 111 :score 15})
-      {:id 112 :score 12})
-    {:id 9 :score 333}))
+      (add (new-container test-key) 
+           (new-sortable 111 15))  ; second
+      (new-sortable 112 12))       ; first
+    (new-sortable 9 99)))          ; third
 
 (defn tear-down []
     (redis/del test-key))
@@ -30,7 +30,7 @@
 
 
 (deftest test-card
-         (is (= (card (pdr/new-container test-key)) 3)))
+         (is (= (card (new-container test-key)) 3)))
 
 (deftest test-top
-         (is false))
+         (is (= (score (first (top (new-container test-key) 1))) 12)))

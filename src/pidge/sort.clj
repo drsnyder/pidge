@@ -4,18 +4,26 @@
   (ident [object])
   (score [object]))
 
-(defprotocol Persistable
-  (store [object #^pidge.data.Container c]))
+(defprotocol Container
+             ; make score and ident a "Sortable"
+             (add  [object #^pidge.sort.Sortable data])
+             (top  [object n])
+             (card [object])
+             (with [object f &[params]])
+             ; index?
+             ; reverse take?
+             )
 
-;(deftype SortableObject [ident weight])
 
-;(extend-type SortableObject
-;             Sortable
-;             Persistable
-;             (#^String container-key [this] "somekey")
-;             (ident                  [this] (.ident this))
-;             (weight                 [this] (.weight this))
-;             (store                  [this #^pidge.data.Container c] (.add 
-;                                                                       (container-key this) 
-;                                                                       (score this)
-;                                                                       (ident this))))
+(deftype SortableObject [ident score])
+
+(extend-type SortableObject
+             Sortable
+             (ident [this] (Integer. (.ident this)))
+             (score [this] (Integer. (.score this))))
+
+
+(defn new-sortable [ident score]
+  (SortableObject. ident score))
+
+
