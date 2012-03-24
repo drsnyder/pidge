@@ -1,4 +1,4 @@
-(defproject pidge "1.0.0-SNAPSHOT"
-  :description "FIXME: write description"
+(defproject org.clojars.drsnyder/pidge "0.0.1"
+  :description "Real-time object ordering"
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [org.clojars.tavisrudd/redis-clojure "1.3.1"]])
