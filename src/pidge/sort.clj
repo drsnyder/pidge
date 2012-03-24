@@ -1,4 +1,5 @@
-(ns pidge.sort)
+(ns pidge.sort
+  (:import [java.lang.reflect Method])) 
 
 (defprotocol Sortable
   (ident [object])
@@ -6,13 +7,13 @@
 
 (defprotocol Container
              ; make score and ident a "Sortable"
-             (add  [object #^pidge.sort.Sortable data])
-             (top  [object n])
-             (card [object])
-             (with [object f &[params]])
-             ; index?
-             ; reverse take?
-             )
+             (add    [object #^pidge.sort.Sortable data])
+             (top    [object n])
+             (page   [object start stop])
+             (card   [object])
+             (index  [object v])
+             (with   [object #^Method f params])
+             (update [this #^Method f params]))
 
 
 (deftype SortableObject [ident score])
