@@ -14,6 +14,13 @@ retrieval for the top M.
 
 ## Usage
 
+Add the following to your project.clj <code>[org.clojars.drsnyder/pidge "0.0.1"]</code>.
+    
+    ; in ns
+    (:use [pidge.sort]
+          [pidge.data.redis])
+    (:require [redis.core :as redis])
+
     ; importing
     (def x 
       (time 
