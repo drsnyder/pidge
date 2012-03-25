@@ -14,25 +14,25 @@ retrieval for the top M.
 
 ## Usage
 
-  ; importing
-  (def x 
-    (time 
-      (update 
-        (new-container "test") 
-        (fn [c] (dorun 
-                  (for [x (range 1 1000000)] 
-                    ;                   id  score
-                    (add c (new-sortable x (+ x 1)))))) 
-        {:redis-server redis-server})))
-  "Elapsed time: 25497.341 msecs"
-
-  ; fetch the object ids for the top 100; compare to SQL SELECT ... JOIN ... JOIN ... WHERE ... ORDER BY
-  (def r 
-    (time 
-      (with (new-container "test") 
-            (fn [c] (top c 100)) 
-            {:redis-server redis-server})))
-  "Elapsed time: 3.762 msecs"
+    ; importing
+    (def x 
+      (time 
+        (update 
+          (new-container "test") 
+          (fn [c] (dorun 
+                    (for [x (range 1 1000000)] 
+                      ;                   id  score
+                      (add c (new-sortable x (+ x 1)))))) 
+          {:redis-server redis-server})))
+    "Elapsed time: 25497.341 msecs"
+  
+    ; fetch the object ids for the top 100; compare to SQL SELECT ... JOIN ... JOIN ... WHERE ... ORDER BY
+    (def r 
+      (time 
+        (with (new-container "test") 
+              (fn [c] (top c 100)) 
+              {:redis-server redis-server})))
+    "Elapsed time: 3.762 msecs"
 
 ## License
 
