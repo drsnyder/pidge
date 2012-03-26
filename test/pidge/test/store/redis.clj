@@ -33,13 +33,13 @@
          (is (= (card (new-container test-key)) 3)))
 
 (deftest test-index
-         (is (= (index (new-container test-key) 111) 1))
          (is (= (index (new-container test-key) 112) 2))
+         (is (= (index (new-container test-key) 111) 1))
          (is (= (index (new-container test-key) 9) 0)))
 
-(deftest test-index
-         (is (= (index (new-container test-key) 111 :asc) 1))
+(deftest test-index-asc
          (is (= (index (new-container test-key) 112 :asc) 0))
+         (is (= (index (new-container test-key) 111 :asc) 1))
          (is (= (index (new-container test-key) 9   :asc) 2)))
 
 (deftest test-top
@@ -58,3 +58,10 @@
                   (second
                       (page (new-container test-key) 0 2))) 111)))
 
+(deftest test-page-asc
+         (is (= (ident 
+                  (first
+                      (page (new-container test-key) 0 2 :asc))) 112))
+         (is (= (ident 
+                  (second
+                      (page (new-container test-key) 0 2 :asc))) 111)))

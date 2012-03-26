@@ -41,6 +41,15 @@ Add the following to your project.clj <code>[org.clojars.drsnyder/pidge "0.0.1"]
               {:redis-server redis-server})))
     "Elapsed time: 3.762 msecs"
 
+    ; fetch a page in the middle
+    (def r 
+      (time 
+        (with (new-container "test") 
+              (fn [c] (page c 500000 500010)) 
+              {:redis-server redis-server})))
+    "Elapsed time: 4.29 msecs"
+
+
 ## License
 
 Copyright (C) 2012 Damon Snyder 
