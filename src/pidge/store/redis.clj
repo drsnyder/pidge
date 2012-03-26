@@ -12,6 +12,12 @@
       (recur (conj c (list (first r) (first (rest r)))) (rest (rest r)))
       c)))
 
+(defn- do-page
+  [#^pidge.sort.Container c start stop dir]
+  (let [rrangefn (if (and dir (= dir :desc)) redis/zrevrange redis/zrange)]
+    (doall
+      (map #(new-sortable (first %) (second %)) 
+           (pair (rrangefn (.key c) start stop "withscores"))))))
 
 (extend-type RedisContainer
              Container
@@ -19,13 +25,18 @@
                   (do
                     (redis/zadd (.key this) (score data) (ident data))
                     this))
-             (top    [this n] (doall
-                             (map #(new-sortable (first %) (second %)) 
-                                  (pair (redis/zrevrange (.key this) 0 n "withscores")))))
-             (page   [this start stop] (doall
-                             (map #(new-sortable (first %) (second %)) 
-                                  (pair (redis/zrevrange (.key this) start stop "withscores")))))
-             (index  [this v] (redis/zrevrank (.key this) v))
+
+             (page   ([this start stop dir] (do-page this start stop dir))
+                     ([this start stop] (do-page this start stop :desc)))
+
+             (top    ([this n dir] (do-page this 0 n dir))
+                     ([this n] (do-page this 0 n :desc)))
+
+             (index  ([this v dir] 
+                      (let [rrankfn (if (= dir :desc) redis/zrevrank redis/zrank)]
+                        (rrankfn (.key this) v)))
+                     ([this v] (redis/zrevrank (.key this) v)))
+
              (card   [this] (redis/zcard (.key this)))
 
              (with   [this f params]

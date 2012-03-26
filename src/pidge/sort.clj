@@ -6,22 +6,22 @@
   (score [object]))
 
 (defprotocol Container
-             ; make score and ident a "Sortable"
              (add    [object #^pidge.sort.Sortable data])
-             (top    [object n])
-             (page   [object start stop])
+             (page   [object start stop #^Keyword dir] [object start stop])
+             (top    [object n #^Keyword dir] [object n])
              (card   [object])
-             (index  [object v])
+             (index  [object v #^Keyword dir][object v])
+
              (with   [object #^Method f params])
-             (update [this #^Method f params]))
+             (update [object #^Method f params]))
 
 
 (deftype SortableObject [ident score])
 
 (extend-type SortableObject
              Sortable
-             (ident [this] (Integer. (.ident this)))
-             (score [this] (Integer. (.score this))))
+             (ident [object] (Integer. (.ident object)))
+             (score [object] (Integer. (.score object))))
 
 
 (defn new-sortable [ident score]

@@ -37,6 +37,11 @@
          (is (= (index (new-container test-key) 112) 2))
          (is (= (index (new-container test-key) 9) 0)))
 
+(deftest test-index
+         (is (= (index (new-container test-key) 111 :asc) 1))
+         (is (= (index (new-container test-key) 112 :asc) 0))
+         (is (= (index (new-container test-key) 9   :asc) 2)))
+
 (deftest test-top
          (is (= (score 
                   (first 

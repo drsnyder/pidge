@@ -16,4 +16,4 @@
         t10 (with (new-container test-key) 
                    (fn [c] (top c 10)) {:redis-server redis-server})]
     (is (= 99 (count u)))
-    (is (= 99 (ident (first t10))))))
+    (is (=  (ident (first t10))))))
