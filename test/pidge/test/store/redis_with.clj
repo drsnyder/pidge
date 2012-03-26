@@ -1,12 +1,11 @@
-(ns pidge.test.data.redis-with
+(ns pidge.test.store.redis-with
   (:use [clojure.test]
         [pidge.sort]
-        [pidge.data.redis])
+        [pidge.store.redis])
   (:require [redis.core :as redis]))
 
-;(def redis-server {:host "127.0.0.1" :port 6379}) 
-(def redis-server {:host "127.0.0.1" :port 6380}) 
-(def test-key "pidge.test.data.redis-with")
+(def redis-server {:host "127.0.0.1" :port 6379}) 
+(def test-key "pidge.test.store.redis-with")
 
 (deftest test-update
   (let [u (update (new-container test-key)

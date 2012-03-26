@@ -1,12 +1,11 @@
-(ns pidge.test.data.redis
+(ns pidge.test.store.redis
   (:use [clojure.test]
         [pidge.sort]
-        [pidge.data.redis])
+        [pidge.store.redis])
   (:require [redis.core :as redis]))
 
-;(def redis-server {:host "127.0.0.1" :port 6379}) 
-(def redis-server {:host "127.0.0.1" :port 6380}) 
-(def test-key "pidge.test.data.redis")
+(def redis-server {:host "127.0.0.1" :port 6379}) 
+(def test-key "pidge.test.store.redis")
 
 ; TODO do this with fixtures
 (defn setup []

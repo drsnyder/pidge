@@ -1,4 +1,4 @@
-(ns pidge.data.redis
+(ns pidge.store.redis
   (:use [pidge.sort]
         [redis.pipeline :only (pipeline)])
   (:require [redis.core :as redis]))
