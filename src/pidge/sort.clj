@@ -10,10 +10,10 @@
              (page   [object start stop #^Keyword dir] [object start stop])
              (top    [object n #^Keyword dir] [object n])
              (card   [object])
-             (index  [object v #^Keyword dir][object v])
+             (index  [object v #^Keyword dir] [object v])
 
-             (with   [object #^Method f params])
-             (update [object #^Method f params]))
+             (with   [object #^Method f params] [object #^Method f])
+             (update [object #^Method f params] [object #^Method f]))
 
 
 (deftype SortableObject [ident score])

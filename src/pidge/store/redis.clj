@@ -19,6 +19,16 @@
       (map #(new-sortable (first %) (second %)) 
            (pair (rrangefn (.key c) start stop "withscores"))))))
 
+
+(defn- do-with [c f params]
+  (redis/with-server (get params :redis-server)
+                     (f c)))
+
+(defn- do-update [c f params]
+  (redis/with-server (get params :redis-server)
+                     (pipeline
+                       (f c))))
+
 (extend-type RedisContainer
              Container
              (add    [this data]
@@ -39,13 +49,11 @@
 
              (card   [this] (redis/zcard (.key this)))
 
-             (with   [this f params]
-                   (redis/with-server (get params :redis-server)
-                                          (f this)))
-             (update [this f params]
-                   (redis/with-server (get params :redis-server)
-                                      (pipeline
-                                          (f this)))))
+             (with   ([this f params] (do-with this f params))
+                     ([this f]        (do-with this f nil)))
+
+             (update ([this f params] (do-update this f params))
+                     ([this f]        (do-update this f nil))))
 
 (defn new-container [k]
   (RedisContainer. k))
