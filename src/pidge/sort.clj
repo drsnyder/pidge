@@ -5,6 +5,7 @@
   (ident [object])
   (score [object]))
 
+; data structure or container that maintains the sort order
 (defprotocol Container
              (add    [object #^pidge.sort.Sortable data])
              (page   [object start stop #^Keyword dir] [object start stop])
@@ -14,6 +15,11 @@
 
              (with   [object #^Method f params] [object #^Method f])
              (update [object #^Method f params] [object #^Method f]))
+
+; bridge that connects the persistent storage (e.g. RDBMS with the container)
+(defprotocol Bridge
+             (data-page [object start stop #^Keyword dir] [object start stop])
+             (position  [object v #^Keyword dir] [object v]))
 
 
 (deftype SortableObject [ident score])

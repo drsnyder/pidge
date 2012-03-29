@@ -12,7 +12,7 @@
                   (fn [c] 
                     (dorun (for [x (range 1 100)]
                       (add c (new-sortable x (+ x 1)))))))
-        t10 (with (new-container test-key) 
+        t10 (with (new-container test-key)  
                    (fn [c] (top c 10)) {:redis-server redis-server})]
     (is (= 99 (count u)))
     (is (=  (ident (first t10))))))
