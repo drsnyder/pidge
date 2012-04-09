@@ -26,8 +26,9 @@
 
 (defn- do-update [c f params]
   (redis/with-server (get params :redis-server)
-                     (pipeline
-                       (f c))))
+                     (dorun 
+                       (pipeline
+                         (f c)))))
 
 (extend-type RedisContainer
              Container
