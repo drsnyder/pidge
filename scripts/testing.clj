@@ -30,14 +30,18 @@
       {:redis-server redis-server})))
 
 (defn create-n-sorted-sets [prefix n sze]
-  (for [x (range 0 n)]
-    (update
-      (new-container (format "%s-%d-%d" prefix n x))
-      (fn [c] (dorun 
-                (for [x (range 0 sze)] 
-                  ;                   id  score
-                  (add c (new-sortable x (+ x 1)))))))))
+  (dorun
+    (for [x (range 0 n)]
+      (update
+        (new-container (format "%s-%d-%d" prefix n x))
+        (fn [c] (dorun 
+                  (for [x (range 0 (+ 1 (rand-int sze)))] 
+                    ;                   id  score
+                    (add c (new-sortable x (+ x 1))))))))))
 
-; ocn: 1.2M threads. avg post count 14
+; ocn: 1.2M threads. avg post count 14; stddevv 222
+; 95% are less than 38 posts
 ; 120k object_display_order entries; avg size 0.6
 ; (create-n-sorted-sets "testocn" 1200000 14) => 250MB
+; (create-n-sorted-sets "testocn" 1200000 32) => 275MB
+; (create-n-sorted-sets "testocn" 1200000 38) => 300MB
