@@ -4,7 +4,11 @@
         [pidge.store.redis])
   (:require [redis.core :as redis]))
 
-(def redis-server {:host "127.0.0.1" :port 6379}) 
+(def redis-server {
+                   :host (get (System/getenv) "REDIS_HOST" "127.0.0.1") 
+                   :port (Integer/parseInt (get (System/getenv) "REDIS_PORT" 6379))
+                   }) 
+
 (def test-key "pidge.test.store.redis")
 
 ; TODO do this with fixtures

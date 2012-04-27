@@ -49,6 +49,13 @@ Add the following to your project.clj <code>[org.clojars.drsnyder/pidge "0.0.1"]
               {:redis-server redis-server})))
     "Elapsed time: 4.29 msecs"
 
+## Testing
+
+If your redis server is running on something other than 127.0.0.1:6379, you can change
+that by:
+
+export REDIS_HOST=127.0.0.1 
+export REDIS_PORT=6379
 
 ## License
 

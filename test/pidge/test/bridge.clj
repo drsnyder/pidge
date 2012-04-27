@@ -7,17 +7,19 @@
 
 ; TODO: figure out some kind of mock for pidge.store.redis
 
-(def redis-server {:host "127.0.0.1" :port 6379}) 
+(def redis-server {
+                   :host (get (System/getenv) "REDIS_HOST" "127.0.0.1") 
+                   :port (Integer/parseInt (get (System/getenv) "REDIS_PORT" 6379))
+                   }) 
 (def test-key "pidge.test.bridge")
 
+
 (defn setup []
-  (update 
-    (new-container test-key) 
-    (fn [c] (dorun 
-              (for [x (range 1 10)] 
-                ;                   id  score
-                (add c (new-sortable x (+ x 1)))))) 
-    {:redis-server redis-server}))
+  (let [c (new-container test-key)]
+    (dorun 
+      (for [x (range 1 10)] 
+        ;                   id  score
+        (add c (new-sortable x (+ x 1)))))))
 
 
 (defn tear-down []
@@ -27,7 +29,8 @@
   (redis/with-server redis-server 
                      (setup)
                      (f)
-                     (tear-down)))
+                     (tear-down)
+                     {:redis-server redis-server}))
 
 (use-fixtures :each redis-fixture)
 
