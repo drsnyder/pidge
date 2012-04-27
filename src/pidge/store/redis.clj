@@ -20,15 +20,11 @@
            (pair (rrangefn (.key c) start stop "withscores"))))))
 
 
-(defn- do-with [c f params]
-  (redis/with-server (get params :redis-server)
-                     (f c)))
 
-(defn- do-update [c f params]
-  (redis/with-server (get params :redis-server)
-                     (dorun 
-                       (pipeline
-                         (f c)))))
+(defn- do-update [c f]
+  (dorun 
+    (pipeline
+      (f c))))
 
 (extend-type RedisContainer
              Container
@@ -50,11 +46,7 @@
 
              (card   [this] (redis/zcard (.key this)))
 
-             (with   ([this f params] (do-with this f params))
-                     ([this f]        (do-with this f nil)))
-
-             (update ([this f params] (do-update this f params))
-                     ([this f]        (do-update this f nil))))
+             (update [this f] (do-update this f)))
 
 (defn new-container [k]
   (RedisContainer. k))

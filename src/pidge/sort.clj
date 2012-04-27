@@ -17,8 +17,7 @@
              (card   [object])
              (index  [object v #^Keyword dir] [object v])
 
-             (with   [object #^Method f params] [object #^Method f])
-             (update [object #^Method f params] [object #^Method f]))
+             (update [object #^Method f]))
 
 
 (deftype SortableObject [ident score])
