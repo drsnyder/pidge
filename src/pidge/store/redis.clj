@@ -20,7 +20,6 @@
            (pair (rrangefn (.key c) start stop "withscores"))))))
 
 
-
 (defn- do-update [c f]
   (dorun 
     (pipeline
